@@ -123,7 +123,26 @@
     </table>
 
     <h2 id="grandTotal">Total: Rp 0</h2>
+<hr>
 
+<h3>Pembayaran</h3>
+
+<label>Metode Pembayaran:</label>
+<select id="metodeBayar">
+    <option value="cash">Cash</option>
+    <option value="transfer">Transfer</option>
+</select>
+
+<br><br>
+
+<label>Uang Bayar:</label>
+<input type="number" id="uangBayar" placeholder="Masukkan uang">
+
+<br><br>
+
+<h3 id="kembalian">Kembalian: Rp 0</h3>
+
+<button onclick="prosesBayar()">Bayar & Cetak Nota</button>
 </div>
 </div>
 
