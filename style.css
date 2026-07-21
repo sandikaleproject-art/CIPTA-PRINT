@@ -126,3 +126,43 @@ button.edit {
     border: none;
     border-radius: 5px;
 }
+/* KASIR TABLE */
+#kasirPage table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#kasirPage th {
+    background: #0F8B8D;
+    color: white;
+}
+
+#kasirPage th, 
+#kasirPage td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* BUTTON KASIR */
+#kasirPage button {
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* TOTAL */
+#grandTotal {
+    margin-top: 15px;
+    color: #F97316;
+    font-weight: bold;
+}
+
+/* INPUT BIAR RAPI */
+#kasirPage input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
