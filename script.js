@@ -124,7 +124,7 @@ function tambahKeKeranjang() {
 
     // ================= HITUNG HARGA =================
     if (produk.tipe === "meter") {
-
+let ukuran = `${lebar} x ${tinggi}`;
         let lebar = parseFloat(document.getElementById("lebar").value);
         let tinggi = parseFloat(document.getElementById("tinggi").value);
 
@@ -177,8 +177,9 @@ function renderKeranjang() {
 
         tbody.innerHTML += `
         <tr>
-            <td>${item.nama}</td>
-            <td>${item.qty}</td>
+    <td>${item.nama}</td>
+<td>${item.ukuran}</td> <!-- TAMBAHKAN INI -->
+<td>${item.qty}</td>
             <td>Rp ${Math.round(item.harga).toLocaleString()}</td>
             <td>Rp ${Math.round(item.total).toLocaleString()}</td>
             <td><button onclick="hapusItem(${i})">X</button></td>
