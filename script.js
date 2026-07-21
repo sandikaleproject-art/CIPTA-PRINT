@@ -137,7 +137,10 @@ function tambahKeKeranjang() {
         let luas = (lebar * tinggi) / 10000; // cm → m²
         harga = luas * produk.harga;
 
-        ukuran = `${lebar} x ${tinggi} cm`;
+     let l = parseFloat(lebar).toFixed(2);
+let t = parseFloat(tinggi).toFixed(2);
+
+ukuran = `${l}x${t}`;
 
     } else {
         harga = produk.harga;
@@ -148,8 +151,9 @@ function tambahKeKeranjang() {
 
     // ================= CEK ITEM SAMA =================
     let existing = keranjang.find(item =>
-        item.nama === produk.nama &&
-        item.ukuran === ukuran
+      item.nama === produk.nama &&
+item.ukuran === ukuran &&
+item.harga === harga
     );
 
     if (existing) {
@@ -252,15 +256,15 @@ function prosesBayar() {
         "Tanggal: " + transaksiBaru.tanggal;
 
     let html = "";
-    keranjang.forEach(item => {
-        html += `
-        <tr>
-            <td>${item.nama}</td>
-            <td>${item.qty}</td>
-            <td>Rp ${Math.round(item.total).toLocaleString()}</td>
-        </tr>`;
-    });
-
+  keranjang.forEach(item => {
+    html += `
+    <tr>
+        <td>${item.nama}</td>
+        <td>${item.ukuran}</td>
+        <td>${item.qty}</td>
+        <td>Rp ${Math.round(item.total).toLocaleString()}</td>
+    </tr>`;
+});
     document.getElementById("notaItem").innerHTML = html;
 
     document.getElementById("notaTotal").innerText =
