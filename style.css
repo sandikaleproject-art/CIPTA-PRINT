@@ -114,3 +114,15 @@ button.edit {
     padding: 8px;
     margin-right: 5px;
 }
+#kasirPage input, #kasirPage select {
+    padding: 8px;
+    margin: 5px;
+}
+
+#kasirPage button {
+    padding: 10px 15px;
+    background: #F97316;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
