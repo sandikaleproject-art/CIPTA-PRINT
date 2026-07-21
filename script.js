@@ -216,20 +216,63 @@ function prosesBayar() {
     }
 
     let metode = document.getElementById("metodeBayar").value;
-    let bayar = document.getElementById("uangBayar").value;
+    let bayar = parseInt(document.getElementById("uangBayar").value);
 
-   let total = grandTotalGlobal;
+    let total = grandTotalGlobal;
 
-    if (bayar === "" || bayar < total) {
+    if (!bayar || bayar < total) {
         alert("Uang kurang!");
         return;
     }
 
-    alert("Transaksi berhasil!\nMetode: " + metode);
+    let kembali = bayar - total;
 
-    // RESET
+    // ================= SIMPAN TRANSAKSI =================
+    let dataTransaksi = JSON.parse(localStorage.getItem("transaksi")) || [];
+
+    let transaksiBaru = {
+        tanggal: new Date().toLocaleString(),
+        metode: metode,
+        total: total,
+        bayar: bayar,
+        kembali: kembali,
+        items: keranjang
+    };
+
+    dataTransaksi.push(transaksiBaru);
+    localStorage.setItem("transaksi", JSON.stringify(dataTransaksi));
+
+    // ================= BUAT NOTA =================
+    document.getElementById("nota").style.display = "block";
+
+    document.getElementById("notaTanggal").innerText =
+        "Tanggal: " + transaksiBaru.tanggal;
+
+    let html = "";
+    keranjang.forEach(item => {
+        html += `
+        <tr>
+            <td>${item.nama}</td>
+            <td>${item.qty}</td>
+            <td>Rp ${Math.round(item.total).toLocaleString()}</td>
+        </tr>`;
+    });
+
+    document.getElementById("notaItem").innerHTML = html;
+
+    document.getElementById("notaTotal").innerText =
+        "Total: Rp " + total.toLocaleString();
+
+    document.getElementById("notaBayar").innerText =
+        "Bayar: Rp " + bayar.toLocaleString();
+
+    document.getElementById("notaKembali").innerText =
+        "Kembali: Rp " + kembali.toLocaleString();
+
+    // ================= RESET =================
     keranjang = [];
     renderKeranjang();
+
     document.getElementById("uangBayar").value = "";
     document.getElementById("kembalian").innerText = "Kembalian: Rp 0";
 }
