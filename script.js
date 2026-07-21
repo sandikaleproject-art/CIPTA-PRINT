@@ -140,10 +140,14 @@ function tambahKeKeranjang() {
         harga = produk.harga;
     }
 
-    let total = harga * qty;
+harga = Math.round(harga); // biar rapi
+let total = harga * qty;
 
     // ================= CEK PRODUK SUDAH ADA =================
-    let existing = keranjang.find(item => item.nama === produk.nama);
+let existing = keranjang.find(item =>
+    item.nama === produk.nama &&
+    item.harga === harga
+);
 
     if (existing) {
         existing.qty += qty;
