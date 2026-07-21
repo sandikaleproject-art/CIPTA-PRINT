@@ -134,7 +134,7 @@ function tambahKeKeranjang() {
             return;
         }
 
-        let luas = (lebar * tinggi) / 10000;
+        let luas = (lebar * tinggi) / 10000; // cm → m²
         harga = luas * produk.harga;
 
         ukuran = `${lebar} x ${tinggi} cm`;
@@ -165,6 +165,8 @@ function tambahKeKeranjang() {
         });
     }
 
+    renderKeranjang();
+}
     renderKeranjang();
 }
 function renderKeranjang() {
