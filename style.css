@@ -110,3 +110,7 @@ button.edit {
     border: none;
     padding: 5px 10px;
 }
+.form-produk select {
+    padding: 8px;
+    margin-right: 5px;
+}
