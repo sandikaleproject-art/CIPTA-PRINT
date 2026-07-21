@@ -85,9 +85,66 @@ function editProduk(index) {
 function showMenu(menu) {
     document.getElementById("dashboardPage").style.display = "none";
     document.getElementById("produkPage").style.display = "none";
+    document.getElementById("kasirPage").style.display = "none";
 
     document.getElementById(menu + "Page").style.display = "block";
+
+    if (menu === "kasir") {
+        loadProdukKasir();
+    }
 }
 
 // JALANKAN AWAL
 tampilProduk();
+function loadProdukKasir() {
+    let select = document.getElementById("pilihProduk");
+
+    select.innerHTML = '<option value="">-- Pilih Produk --</option>';
+
+    dataProduk.forEach((item, index) => {
+        select.innerHTML += `<option value="${index}">${item.nama}</option>`;
+    });
+}
+function pilihProduk() {
+    let index = document.getElementById("pilihProduk").value;
+
+    if (index === "") return;
+
+    let produk = dataProduk[index];
+
+    if (produk.tipe === "meter") {
+        document.getElementById("inputUkuran").style.display = "block";
+    } else {
+        document.getElementById("inputUkuran").style.display = "none";
+    }
+}
+function hitungHarga() {
+    let index = document.getElementById("pilihProduk").value;
+
+    if (index === "") {
+        alert("Pilih produk dulu!");
+        return;
+    }
+
+    let produk = dataProduk[index];
+    let total = 0;
+
+    if (produk.tipe === "meter") {
+        let lebar = document.getElementById("lebar").value;
+        let tinggi = document.getElementById("tinggi").value;
+
+        if (lebar === "" || tinggi === "") {
+            alert("Isi ukuran!");
+            return;
+        }
+
+        let luas = (lebar * tinggi) / 10000;
+        total = luas * produk.harga;
+
+    } else {
+        total = produk.harga;
+    }
+
+    document.getElementById("hasilHarga").innerText =
+        "Total: Rp " + Math.round(total).toLocaleString();
+}
