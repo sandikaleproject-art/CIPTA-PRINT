@@ -82,18 +82,31 @@ function editProduk(index) {
 }
 
 // PINDAH MENU
-function showMenu(menu) {
-    document.getElementById("dashboardPage").style.display = "none";
-    document.getElementById("produkPage").style.display = "none";
-    document.getElementById("kasirPage").style.display = "none";
+function showMenu(menu, event) {
 
-    document.getElementById(menu + "Page").style.display = "block";
+    // sembunyikan semua halaman
+    let pages = ["dashboard", "produk", "kasir"];
 
+    pages.forEach(p => {
+        let halaman = document.getElementById(p + "Page");
+        if (halaman) halaman.style.display = "none";
+    });
+
+    // tampilkan yang dipilih
+    let target = document.getElementById(menu + "Page");
+    if (target) target.style.display = "block";
+
+    // ubah warna menu aktif
+    let menuItems = document.querySelectorAll(".sidebar ul li");
+    menuItems.forEach(item => item.classList.remove("active"));
+
+    event.target.classList.add("active");
+
+    // khusus kasir load produk
     if (menu === "kasir") {
         loadProdukKasir();
     }
 }
-
 // JALANKAN AWAL
 tampilProduk();
 function loadProdukKasir() {
