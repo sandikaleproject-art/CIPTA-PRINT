@@ -88,27 +88,43 @@
     </div>
 
     <!-- KASIR -->
-    <div id="kasirPage" style="display:none;">
+   <div id="kasirPage" style="display:none;">
 
-        <h2>Kasir</h2>
+    <h2>Kasir</h2>
 
-        <select id="pilihProduk" onchange="pilihProduk()">
-            <option value="">-- Pilih Produk --</option>
-        </select>
+    <select id="pilihProduk" onchange="pilihProduk()">
+        <option value="">-- Pilih Produk --</option>
+    </select>
 
-        <div id="inputUkuran" style="display:none;">
-            <input type="number" id="lebar" placeholder="Lebar (cm)">
-            <input type="number" id="tinggi" placeholder="Tinggi (cm)">
-        </div>
-
-        <br>
-
-        <button onclick="hitungHarga()">Hitung</button>
-
-        <h3 id="hasilHarga">Total: Rp 0</h3>
-
+    <div id="inputUkuran" style="display:none;">
+        <input type="number" id="lebar" placeholder="Lebar (cm)">
+        <input type="number" id="tinggi" placeholder="Tinggi (cm)">
     </div>
 
+    <input type="number" id="qty" placeholder="Qty" value="1">
+
+    <br>
+
+    <button onclick="tambahKeKeranjang()">Tambah ke Keranjang</button>
+
+    <h3>Keranjang</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Qty</th>
+                <th>Harga</th>
+                <th>Total</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="keranjangList"></tbody>
+    </table>
+
+    <h2 id="grandTotal">Total: Rp 0</h2>
+
+</div>
 </div>
 
 <script src="script.js"></script>
