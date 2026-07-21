@@ -110,68 +110,78 @@ function pilihProduk() {
 }
 
 function tambahKeKeranjang() {
+
     let index = document.getElementById("pilihProduk").value;
-    let qty = document.getElementById("qty").value;
+    let qty = parseInt(document.getElementById("qty").value) || 1;
 
     if (index === "") {
-        alert("Pilih produk!");
+        alert("Pilih produk dulu!");
         return;
     }
 
     let produk = dataProduk[index];
- let harga = 0;
+    let harga = 0;
 
-if (produk.tipe === "meter") {
+    // ================= HITUNG HARGA =================
+    if (produk.tipe === "meter") {
 
-    let lebar = document.getElementById("lebar").value;
-    let tinggi = document.getElementById("tinggi").value;
+        let lebar = parseFloat(document.getElementById("lebar").value);
+        let tinggi = parseFloat(document.getElementById("tinggi").value);
 
-    if (lebar === "" || tinggi === "") {
-        alert("Isi ukuran dulu!");
-        return;
+        if (!lebar || !tinggi) {
+            alert("Isi ukuran dulu!");
+            return;
+        }
+
+        let luas = (lebar * tinggi) / 10000; // cm → meter
+        harga = luas * produk.harga;
+
+    } else {
+        harga = produk.harga;
     }
 
-    let luas = (lebar * tinggi) / 10000; // cm ke meter
+    let total = harga * qty;
 
-    harga = luas * produk.harga;
+    // ================= CEK PRODUK SUDAH ADA =================
+    let existing = keranjang.find(item => item.nama === produk.nama);
 
-} else {
-    harga = produk.harga;
-}
-
-let total = harga * qty;
-
-    keranjang.push({
-        nama: produk.nama,
-        qty: qty,
-        harga: harga,
-        total: total
-    });
+    if (existing) {
+        existing.qty += qty;
+        existing.total += total;
+    } else {
+        keranjang.push({
+            nama: produk.nama,
+            qty: qty,
+            harga: harga,
+            total: total
+        });
+    }
 
     renderKeranjang();
 }
-
 function renderKeranjang() {
+
     let tbody = document.getElementById("keranjangList");
     tbody.innerHTML = "";
 
- grandTotalGlobal = 0;
+    grandTotalGlobal = 0;
 
     keranjang.forEach((item, i) => {
-     grandTotalGlobal += item.total;
+
+        grandTotalGlobal += item.total;
 
         tbody.innerHTML += `
         <tr>
             <td>${item.nama}</td>
             <td>${item.qty}</td>
-            <td>${item.harga}</td>
-            <td>${item.total}</td>
+            <td>Rp ${Math.round(item.harga).toLocaleString()}</td>
+            <td>Rp ${Math.round(item.total).toLocaleString()}</td>
             <td><button onclick="hapusItem(${i})">X</button></td>
         </tr>`;
     });
 
     document.getElementById("grandTotal").innerText =
-    "Total: Rp " + grandTotalGlobal.toLocaleString();
+        "Total: Rp " + Math.round(grandTotalGlobal).toLocaleString();
 }
 
 function hapusItem(i) {
