@@ -1,15 +1,16 @@
-// DATA SIMULASI (nanti ini dari database)
+// ================= DASHBOARD =================
 let produk = 10;
 let customer = 5;
 let transaksi = 20;
 let penjualan = 1500000;
 
-// TAMPILKAN KE DASHBOARD
 document.getElementById("totalProduk").innerText = produk;
 document.getElementById("totalCustomer").innerText = customer;
 document.getElementById("totalTransaksi").innerText = transaksi;
-document.getElementById("totalPenjualan").innerText = "Rp " + penjualan.toLocaleString();
-// SIMPAN DATA PRODUK
+document.getElementById("totalPenjualan").innerText =
+    "Rp " + penjualan.toLocaleString();
+
+// ================= DATA PRODUK =================
 let dataProduk = JSON.parse(localStorage.getItem("produk")) || [];
 
 // TAMPILKAN PRODUK
@@ -17,7 +18,6 @@ function tampilProduk() {
     let html = "";
 
     dataProduk.forEach((item, index) => {
-
         let tipeLabel = item.tipe === "meter" ? "Per Meter" : "Satuan";
 
         html += `
@@ -26,15 +26,14 @@ function tampilProduk() {
             <td>${tipeLabel}</td>
             <td>Rp ${item.harga.toLocaleString()}</td>
             <td>
-                <button class="edit" onclick="editProduk(${index})">Edit</button>
-                <button class="hapus" onclick="hapusProduk(${index})">Hapus</button>
+                <button onclick="hapusProduk(${index})">Hapus</button>
             </td>
-        </tr>
-        `;
+        </tr>`;
     });
 
     document.getElementById("listProduk").innerHTML = html;
 }
+
 // TAMBAH PRODUK
 function tambahProduk() {
     let nama = document.getElementById("namaProduk").value;
@@ -42,7 +41,7 @@ function tambahProduk() {
     let tipe = document.getElementById("tipeProduk").value;
 
     if (nama === "" || harga === "") {
-        alert("Isi semua data!");
+        alert("Isi data!");
         return;
     }
 
@@ -53,11 +52,7 @@ function tambahProduk() {
     });
 
     localStorage.setItem("produk", JSON.stringify(dataProduk));
-
     tampilProduk();
-
-    document.getElementById("namaProduk").value = "";
-    document.getElementById("hargaProduk").value = "";
 }
 
 // HAPUS PRODUK
@@ -67,48 +62,30 @@ function hapusProduk(index) {
     tampilProduk();
 }
 
-// EDIT PRODUK
-function editProduk(index) {
-    let namaBaru = prompt("Edit Nama:", dataProduk[index].nama);
-    let hargaBaru = prompt("Edit Harga:", dataProduk[index].harga);
-
-    if (namaBaru && hargaBaru) {
-        dataProduk[index].nama = namaBaru;
-        dataProduk[index].harga = parseInt(hargaBaru);
-
-        localStorage.setItem("produk", JSON.stringify(dataProduk));
-        tampilProduk();
-    }
-}
-
-// PINDAH MENU
+// ================= MENU =================
 function showMenu(menu, event) {
 
-    // sembunyikan semua halaman
     let pages = ["dashboard", "produk", "kasir"];
 
     pages.forEach(p => {
-        let halaman = document.getElementById(p + "Page");
-        if (halaman) halaman.style.display = "none";
+        document.getElementById(p + "Page").style.display = "none";
     });
 
-    // tampilkan yang dipilih
-    let target = document.getElementById(menu + "Page");
-    if (target) target.style.display = "block";
+    document.getElementById(menu + "Page").style.display = "block";
 
-    // ubah warna menu aktif
     let menuItems = document.querySelectorAll(".sidebar ul li");
     menuItems.forEach(item => item.classList.remove("active"));
 
     event.target.classList.add("active");
 
-    // khusus kasir load produk
     if (menu === "kasir") {
         loadProdukKasir();
     }
 }
-// JALANKAN AWAL
-tampilProduk();
+
+// ================= KASIR =================
+let keranjang = [];
+
 function loadProdukKasir() {
     let select = document.getElementById("pilihProduk");
 
@@ -118,9 +95,9 @@ function loadProdukKasir() {
         select.innerHTML += `<option value="${index}">${item.nama}</option>`;
     });
 }
+
 function pilihProduk() {
     let index = document.getElementById("pilihProduk").value;
-
     if (index === "") return;
 
     let produk = dataProduk[index];
@@ -131,72 +108,18 @@ function pilihProduk() {
         document.getElementById("inputUkuran").style.display = "none";
     }
 }
-function hitungHarga() {
-    let index = document.getElementById("pilihProduk").value;
 
-    if (index === "") {
-        alert("Pilih produk dulu!");
-        return;
-    }
-
-    let produk = dataProduk[index];
-    let total = 0;
-
-    if (produk.tipe === "meter") {
-        let lebar = document.getElementById("lebar").value;
-        let tinggi = document.getElementById("tinggi").value;
-
-        if (lebar === "" || tinggi === "") {
-            alert("Isi ukuran!");
-            return;
-        }
-
-        let luas = (lebar * tinggi) / 10000;
-        total = luas * produk.harga;
-
-    } else {
-        total = produk.harga;
-    }
-
-    document.getElementById("hasilHarga").innerText =
-        "Total: Rp " + Math.round(total).toLocaleString();
-}
-
-function testKlik() {
-    alert("Klik jalan");
-}
-
-// ================== KERANJANG ==================
-let keranjang = [];
-
-// TAMBAH KE KERANJANG
 function tambahKeKeranjang() {
     let index = document.getElementById("pilihProduk").value;
     let qty = document.getElementById("qty").value;
 
     if (index === "") {
-        alert("Pilih produk dulu!");
+        alert("Pilih produk!");
         return;
     }
 
     let produk = dataProduk[index];
-    let harga = 0;
-
-    // CEK TIPE PRODUK
-    if (produk.tipe === "meter") {
-        let lebar = document.getElementById("lebar").value;
-        let tinggi = document.getElementById("tinggi").value;
-
-        if (lebar === "" || tinggi === "") {
-            alert("Isi ukuran dulu!");
-            return;
-        }
-
-        let luas = (lebar * tinggi) / 10000;
-        harga = luas * produk.harga;
-    } else {
-        harga = produk.harga;
-    }
+    let harga = produk.harga;
 
     let total = harga * qty;
 
@@ -210,35 +133,33 @@ function tambahKeKeranjang() {
     renderKeranjang();
 }
 
-// TAMPILKAN KERANJANG
 function renderKeranjang() {
     let tbody = document.getElementById("keranjangList");
     tbody.innerHTML = "";
 
-    let grandTotal = 0;
+    let total = 0;
 
-    keranjang.forEach((item, index) => {
-        grandTotal += item.total;
+    keranjang.forEach((item, i) => {
+        total += item.total;
 
         tbody.innerHTML += `
-            <tr>
-                <td>${item.nama}</td>
-                <td>${item.qty}</td>
-                <td>Rp ${Math.round(item.harga).toLocaleString()}</td>
-                <td>Rp ${Math.round(item.total).toLocaleString()}</td>
-                <td>
-                    <button onclick="hapusItem(${index})">Hapus</button>
-                </td>
-            </tr>
-        `;
+        <tr>
+            <td>${item.nama}</td>
+            <td>${item.qty}</td>
+            <td>${item.harga}</td>
+            <td>${item.total}</td>
+            <td><button onclick="hapusItem(${i})">X</button></td>
+        </tr>`;
     });
 
     document.getElementById("grandTotal").innerText =
-        "Total: Rp " + Math.round(grandTotal).toLocaleString();
+        "Total: Rp " + total.toLocaleString();
 }
 
-// HAPUS ITEM
-function hapusItem(index) {
-    keranjang.splice(index, 1);
+function hapusItem(i) {
+    keranjang.splice(i, 1);
     renderKeranjang();
 }
+
+// ================= INIT =================
+tampilProduk();
