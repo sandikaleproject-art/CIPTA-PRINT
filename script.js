@@ -165,74 +165,7 @@ function hitungHarga() {
 function testKlik() {
     alert("Klik jalan");
 }
-let keranjang = [];
-function tambahKeKeranjang() {
-    let index = document.getElementById("pilihProduk").value;
-    let qty = document.getElementById("qty").value;
 
-    if (index === "") {
-        alert("Pilih produk dulu!");
-        return;
-    }
-
-    let produk = dataProduk[index];
-    let harga = 0;
-
-    if (produk.tipe === "meter") {
-        let lebar = document.getElementById("lebar").value;
-        let tinggi = document.getElementById("tinggi").value;
-
-        if (lebar === "" || tinggi === "") {
-            alert("Isi ukuran!");
-            return;
-        }
-
-        let luas = (lebar * tinggi) / 10000;
-        harga = luas * produk.harga;
-    } else {
-        harga = produk.harga;
-    }
-
-    let total = harga * qty;
-
-    keranjang.push({
-        nama: produk.nama,
-        qty: qty,
-        harga: harga,
-        total: total
-    });
-
-    renderKeranjang();
-}
-function renderKeranjang() {
-    let tbody = document.getElementById("keranjangList");
-    tbody.innerHTML = "";
-
-    let grandTotal = 0;
-
-    keranjang.forEach((item, index) => {
-        grandTotal += item.total;
-
-        tbody.innerHTML += `
-            <tr>
-                <td>${item.nama}</td>
-                <td>${item.qty}</td>
-                <td>Rp ${Math.round(item.harga).toLocaleString()}</td>
-                <td>Rp ${Math.round(item.total).toLocaleString()}</td>
-                <td>
-                    <button onclick="hapusItem(${index})">Hapus</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    document.getElementById("grandTotal").innerText =
-        "Total: Rp " + Math.round(grandTotal).toLocaleString();
-}
-function hapusItem(index) {
-    keranjang.splice(index, 1);
-    renderKeranjang();
-}
 // ================== KERANJANG ==================
 let keranjang = [];
 
