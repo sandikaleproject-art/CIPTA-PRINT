@@ -163,3 +163,42 @@ function hapusItem(i) {
 
 // ================= INIT =================
 tampilProduk();
+document.getElementById("uangBayar").addEventListener("input", function () {
+    let bayar = this.value;
+    let totalText = document.getElementById("grandTotal").innerText;
+
+    let total = parseInt(totalText.replace(/\D/g, "")) || 0;
+
+    let kembali = bayar - total;
+
+    if (kembali < 0) kembali = 0;
+
+    document.getElementById("kembalian").innerText =
+        "Kembalian: Rp " + kembali.toLocaleString();
+});
+function prosesBayar() {
+
+    if (keranjang.length === 0) {
+        alert("Keranjang kosong!");
+        return;
+    }
+
+    let metode = document.getElementById("metodeBayar").value;
+    let bayar = document.getElementById("uangBayar").value;
+
+    let totalText = document.getElementById("grandTotal").innerText;
+    let total = parseInt(totalText.replace(/\D/g, "")) || 0;
+
+    if (bayar === "" || bayar < total) {
+        alert("Uang kurang!");
+        return;
+    }
+
+    alert("Transaksi berhasil!\nMetode: " + metode);
+
+    // RESET
+    keranjang = [];
+    renderKeranjang();
+    document.getElementById("uangBayar").value = "";
+    document.getElementById("kembalian").innerText = "Kembalian: Rp 0";
+}
