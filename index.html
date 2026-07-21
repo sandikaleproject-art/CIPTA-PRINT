@@ -33,9 +33,16 @@
     <h2>Manajemen Produk</h2>
 
     <div class="form-produk">
-        <input type="text" id="namaProduk" placeholder="Nama Produk">
-        <input type="number" id="hargaProduk" placeholder="Harga">
-        <button onclick="tambahProduk()">Tambah</button>
+     <input type="text" id="namaProduk" placeholder="Nama Produk">
+
+<select id="tipeProduk">
+    <option value="satuan">Produk Biasa</option>
+    <option value="meter">Per Meter (Banner)</option>
+</select>
+
+<input type="number" id="hargaProduk" placeholder="Harga / Meter">
+
+<button onclick="tambahProduk()">Tambah</button>
     </div>
 
     <table>
