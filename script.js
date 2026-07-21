@@ -167,8 +167,6 @@ function tambahKeKeranjang() {
 
     renderKeranjang();
 }
-    renderKeranjang();
-}
 function renderKeranjang() {
 
     let tbody = document.getElementById("keranjangList");
