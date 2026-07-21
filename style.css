@@ -166,3 +166,20 @@ button.edit {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+@media print {
+
+    body * {
+        visibility: hidden;
+    }
+
+    #nota, #nota * {
+        visibility: visible;
+    }
+
+    #nota {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
