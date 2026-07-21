@@ -124,29 +124,36 @@ function tambahKeKeranjang() {
 
     // ================= HITUNG HARGA =================
     if (produk.tipe === "meter") {
-let ukuran = `${lebar} x ${tinggi}`;
-        let lebar = parseFloat(document.getElementById("lebar").value);
-        let tinggi = parseFloat(document.getElementById("tinggi").value);
+let lebar = 0;
+let tinggi = 0;
 
-        if (!lebar || !tinggi) {
-            alert("Isi ukuran dulu!");
-            return;
-        }
+if (produk.tipe === "meter") {
 
-        let luas = (lebar * tinggi) / 10000; // cm → meter
-        harga = luas * produk.harga;
+    lebar = parseFloat(document.getElementById("lebar").value);
+    tinggi = parseFloat(document.getElementById("tinggi").value);
 
-    } else {
-        harga = produk.harga;
+if (lebar === "" || tinggi === "" || isNaN(lebar) || isNaN(tinggi)) {
+    alert("Isi ukuran dulu!");
+    return;
+}
     }
+
+    let luas = (lebar * tinggi) / 10000;
+    harga = luas * produk.harga;
+
+} else {
+    harga = produk.harga;
+}
 
 harga = Math.round(harga); // biar rapi
 let total = harga * qty;
 
     // ================= CEK PRODUK SUDAH ADA =================
+let ukuranKey = produk.tipe === "meter" ? `${lebar}x${tinggi}` : "-";
+
 let existing = keranjang.find(item =>
     item.nama === produk.nama &&
-    item.harga === harga
+    item.ukuran === ukuranKey
 );
 
     if (existing) {
@@ -155,11 +162,11 @@ let existing = keranjang.find(item =>
     } else {
 keranjang.push({
     nama: produk.nama,
-    ukuran: produk.tipe === "meter" ? `${lebar}x${tinggi}` : "-",
-            qty: qty,
-            harga: harga,
-            total: total
-        });
+    ukuran: ukuranKey,
+    qty: qty,
+    harga: harga,
+    total: total
+});
     }
 
     renderKeranjang();
@@ -276,3 +283,11 @@ function prosesBayar() {
     document.getElementById("uangBayar").value = "";
     document.getElementById("kembalian").innerText = "Kembalian: Rp 0";
 }
+let nota = document.getElementById("nota");
+
+if (!nota) {
+    alert("Nota tidak ditemukan!");
+    return;
+}
+
+nota.style.display = "block";
