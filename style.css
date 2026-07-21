@@ -183,3 +183,24 @@ button.edit {
         width: 100%;
     }
 }
+#nota {
+    font-family: monospace;
+    border: 2px dashed #000;
+    max-width: 400px;
+    margin: auto;
+}
+
+#nota h2 {
+    text-align: center;
+}
+
+#nota table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#nota table th,
+#nota table td {
+    border-bottom: 1px dashed #000;
+    text-align: left;
+}
