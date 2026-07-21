@@ -121,51 +121,48 @@ function tambahKeKeranjang() {
 
     let produk = dataProduk[index];
     let harga = 0;
+    let ukuran = "-";
 
     // ================= HITUNG HARGA =================
     if (produk.tipe === "meter") {
-let lebar = 0;
-let tinggi = 0;
 
-if (produk.tipe === "meter") {
+        let lebar = parseFloat(document.getElementById("lebar").value);
+        let tinggi = parseFloat(document.getElementById("tinggi").value);
 
-    let lebar = parseFloat(document.getElementById("lebar").value);
-    let tinggi = parseFloat(document.getElementById("tinggi").value);
+        if (isNaN(lebar) || isNaN(tinggi)) {
+            alert("Isi ukuran dulu!");
+            return;
+        }
 
-    if (isNaN(lebar) || isNaN(tinggi)) {
-        alert("Isi ukuran dulu!");
-        return;
+        let luas = (lebar * tinggi) / 10000;
+        harga = luas * produk.harga;
+
+        ukuran = `${lebar} x ${tinggi} cm`;
+
+    } else {
+        harga = produk.harga;
     }
 
-    let luas = (lebar * tinggi) / 10000;
-    harga = luas * produk.harga;
+    harga = Math.round(harga);
+    let total = harga * qty;
 
-} else {
-    harga = produk.harga;
-}
-
-harga = Math.round(harga); // biar rapi
-let total = harga * qty;
-
-    // ================= CEK PRODUK SUDAH ADA =================
-let ukuranKey = produk.tipe === "meter" ? `${lebar}x${tinggi}` : "-";
-
-let existing = keranjang.find(item =>
-    item.nama === produk.nama &&
-    item.ukuran === ukuranKey
-);
+    // ================= CEK ITEM SAMA =================
+    let existing = keranjang.find(item =>
+        item.nama === produk.nama &&
+        item.ukuran === ukuran
+    );
 
     if (existing) {
         existing.qty += qty;
         existing.total += total;
     } else {
-keranjang.push({
-    nama: produk.nama,
-    ukuran: ukuranKey,
-    qty: qty,
-    harga: harga,
-    total: total
-});
+        keranjang.push({
+            nama: produk.nama,
+            ukuran: ukuran,
+            qty: qty,
+            harga: harga,
+            total: total
+        });
     }
 
     renderKeranjang();
