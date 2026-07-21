@@ -11,8 +11,8 @@
 <div class="sidebar">
     <h2>CIPTA PRINT</h2>
     <ul>
-        <li class="active">Dashboard</li>
-        <li>Produk</li>
+      <li onclick="showMenu('dashboard')" class="active">Dashboard</li>
+<li onclick="showMenu('produk')">Produk</li>
         <li>Customer</li>
         <li>Kasir</li>
         <li>Laporan</li>
@@ -22,7 +22,34 @@
 
 <!-- MAIN -->
 <div class="main">
+<!-- DASHBOARD -->
+<div id="dashboardPage">
+    <!-- (dashboard lama tetap di sini) -->
+</div>
 
+<!-- PRODUK -->
+<div id="produkPage" style="display:none;">
+
+    <h2>Manajemen Produk</h2>
+
+    <div class="form-produk">
+        <input type="text" id="namaProduk" placeholder="Nama Produk">
+        <input type="number" id="hargaProduk" placeholder="Harga">
+        <button onclick="tambahProduk()">Tambah</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Harga</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="listProduk"></tbody>
+    </table>
+
+</div>
     <!-- HEADER -->
     <div class="header">
         <h1>Dashboard</h1>
