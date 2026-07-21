@@ -129,13 +129,12 @@ let tinggi = 0;
 
 if (produk.tipe === "meter") {
 
-    lebar = parseFloat(document.getElementById("lebar").value);
-    tinggi = parseFloat(document.getElementById("tinggi").value);
+    let lebar = parseFloat(document.getElementById("lebar").value);
+    let tinggi = parseFloat(document.getElementById("tinggi").value);
 
-if (lebar === "" || tinggi === "" || isNaN(lebar) || isNaN(tinggi)) {
-    alert("Isi ukuran dulu!");
-    return;
-}
+    if (isNaN(lebar) || isNaN(tinggi)) {
+        alert("Isi ukuran dulu!");
+        return;
     }
 
     let luas = (lebar * tinggi) / 10000;
