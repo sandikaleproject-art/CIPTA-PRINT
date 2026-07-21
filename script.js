@@ -1,14 +1,29 @@
 // ================= DASHBOARD =================
-let produk = 10;
-let customer = 5;
-let transaksi = 20;
-let penjualan = 1500000;
 
-document.getElementById("totalProduk").innerText = produk;
-document.getElementById("totalCustomer").innerText = customer;
-document.getElementById("totalTransaksi").innerText = transaksi;
-document.getElementById("totalPenjualan").innerText =
-    "Rp " + penjualan.toLocaleString();
+function updateDashboard(){
+
+    let produk = JSON.parse(localStorage.getItem("produk")) || [];
+    let transaksi = JSON.parse(localStorage.getItem("transaksi")) || [];
+
+    document.getElementById("totalProduk").innerText =
+        produk.length;
+
+    document.getElementById("totalCustomer").innerText =
+        0;
+
+    document.getElementById("totalTransaksi").innerText =
+        transaksi.length;
+
+    let total = 0;
+
+    transaksi.forEach(item=>{
+        total += item.total;
+    });
+
+    document.getElementById("totalPenjualan").innerText =
+        "Rp " + total.toLocaleString("id-ID");
+
+}
 
 // ================= DATA PRODUK =================
 let dataProduk = JSON.parse(localStorage.getItem("produk")) || [];
@@ -51,8 +66,16 @@ function tambahProduk() {
         tipe: tipe
     });
 
-    localStorage.setItem("produk", JSON.stringify(dataProduk));
-    tampilProduk();
+localStorage.setItem("produk", JSON.stringify(dataProduk));
+
+tampilProduk();
+
+updateDashboard();
+
+// reset form
+document.getElementById("namaProduk").value="";
+document.getElementById("hargaProduk").value="";
+document.getElementById("tipeProduk").selectedIndex=0;
 }
 
 // HAPUS PRODUK
@@ -60,6 +83,7 @@ function hapusProduk(index) {
     dataProduk.splice(index, 1);
     localStorage.setItem("produk", JSON.stringify(dataProduk));
     tampilProduk();
+    updateDashboard();
 }
 
 // ================= MENU =================
@@ -250,6 +274,11 @@ function prosesBayar() {
 
     dataTransaksi.push(transaksiBaru);
     localStorage.setItem("transaksi", JSON.stringify(dataTransaksi));
+    tampilProduk();
+
+updateDashboard();
+
+loadProdukKasir();
 
     // ================= BUAT NOTA =================
     document.getElementById("nota").style.display = "block";
