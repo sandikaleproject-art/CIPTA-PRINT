@@ -13,6 +13,7 @@
     <ul>
       <li onclick="showMenu('dashboard')" class="active">Dashboard</li>
 <li onclick="showMenu('produk')">Produk</li>
+        <li onclick="showMenu('kasir')">Kasir</li>
         <li>Customer</li>
         <li>Kasir</li>
         <li>Laporan</li>
@@ -29,7 +30,29 @@
 
 <!-- PRODUK -->
 <div id="produkPage" style="display:none;">
+<!-- KASIR -->
+<div id="kasirPage" style="display:none;">
 
+    <h2>Kasir</h2>
+
+    <!-- PILIH PRODUK -->
+    <select id="pilihProduk" onchange="pilihProduk()">
+        <option value="">-- Pilih Produk --</option>
+    </select>
+
+    <!-- INPUT UKURAN -->
+    <div id="inputUkuran" style="display:none;">
+        <input type="number" id="lebar" placeholder="Lebar (cm)">
+        <input type="number" id="tinggi" placeholder="Tinggi (cm)">
+    </div>
+
+    <br>
+
+    <button onclick="hitungHarga()">Hitung</button>
+
+    <h3 id="hasilHarga">Total: Rp 0</h3>
+
+</div>
     <h2>Manajemen Produk</h2>
 
     <div class="form-produk">
