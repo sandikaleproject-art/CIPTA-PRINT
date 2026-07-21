@@ -17,9 +17,13 @@ function tampilProduk() {
     let html = "";
 
     dataProduk.forEach((item, index) => {
+
+        let tipeLabel = item.tipe === "meter" ? "Per Meter" : "Satuan";
+
         html += `
         <tr>
             <td>${item.nama}</td>
+            <td>${tipeLabel}</td>
             <td>Rp ${item.harga.toLocaleString()}</td>
             <td>
                 <button class="edit" onclick="editProduk(${index})">Edit</button>
@@ -31,11 +35,11 @@ function tampilProduk() {
 
     document.getElementById("listProduk").innerHTML = html;
 }
-
 // TAMBAH PRODUK
 function tambahProduk() {
     let nama = document.getElementById("namaProduk").value;
     let harga = document.getElementById("hargaProduk").value;
+    let tipe = document.getElementById("tipeProduk").value;
 
     if (nama === "" || harga === "") {
         alert("Isi semua data!");
@@ -44,7 +48,8 @@ function tambahProduk() {
 
     dataProduk.push({
         nama: nama,
-        harga: parseInt(harga)
+        harga: parseInt(harga),
+        tipe: tipe
     });
 
     localStorage.setItem("produk", JSON.stringify(dataProduk));
