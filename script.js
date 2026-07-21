@@ -123,24 +123,27 @@ function tambahKeKeranjang() {
     let harga = 0;
     let ukuran = "-";
 
-    // ================= HITUNG HARGA =================
     if (produk.tipe === "meter") {
 
-        let lebar = parseFloat(document.getElementById("lebar").value);
-        let tinggi = parseFloat(document.getElementById("tinggi").value);
+        let lebarInput = document.getElementById("lebar").value;
+        let tinggiInput = document.getElementById("tinggi").value;
 
-        if (isNaN(lebar) || isNaN(tinggi)) {
+        let lebar = parseFloat(lebarInput);
+        let tinggi = parseFloat(tinggiInput);
+
+        if (!lebarInput || !tinggiInput || isNaN(lebar) || isNaN(tinggi)) {
             alert("Isi ukuran dulu!");
             return;
         }
 
-        let luas = (lebar * tinggi) / 10000; // cm → m²
+        // FORMAT FIX BIAR KONSISTEN
+        let l = lebar.toFixed(2);
+        let t = tinggi.toFixed(2);
+
+        ukuran = `${l} x ${t} cm`;
+
+        let luas = (lebar * tinggi) / 10000;
         harga = luas * produk.harga;
-
-     let l = parseFloat(lebar).toFixed(2);
-let t = parseFloat(tinggi).toFixed(2);
-
-ukuran = `${l}x${t}`;
 
     } else {
         harga = produk.harga;
@@ -149,11 +152,10 @@ ukuran = `${l}x${t}`;
     harga = Math.round(harga);
     let total = harga * qty;
 
-    // ================= CEK ITEM SAMA =================
+    // 🔥 KUNCI FIX: pakai nama + ukuran SAJA
     let existing = keranjang.find(item =>
-      item.nama === produk.nama &&
-item.ukuran === ukuran &&
-item.harga === harga
+        item.nama === produk.nama &&
+        item.ukuran === ukuran
     );
 
     if (existing) {
