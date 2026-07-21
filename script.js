@@ -85,7 +85,7 @@ function showMenu(menu, event) {
 
 // ================= KASIR =================
 let keranjang = [];
-
+let grandTotalGlobal = 0;
 function loadProdukKasir() {
     let select = document.getElementById("pilihProduk");
 
@@ -119,9 +119,27 @@ function tambahKeKeranjang() {
     }
 
     let produk = dataProduk[index];
-    let harga = produk.harga;
+ let harga = 0;
 
-    let total = harga * qty;
+if (produk.tipe === "meter") {
+
+    let lebar = document.getElementById("lebar").value;
+    let tinggi = document.getElementById("tinggi").value;
+
+    if (lebar === "" || tinggi === "") {
+        alert("Isi ukuran dulu!");
+        return;
+    }
+
+    let luas = (lebar * tinggi) / 10000; // cm ke meter
+
+    harga = luas * produk.harga;
+
+} else {
+    harga = produk.harga;
+}
+
+let total = harga * qty;
 
     keranjang.push({
         nama: produk.nama,
@@ -137,10 +155,10 @@ function renderKeranjang() {
     let tbody = document.getElementById("keranjangList");
     tbody.innerHTML = "";
 
-    let total = 0;
+ grandTotalGlobal = 0;
 
     keranjang.forEach((item, i) => {
-        total += item.total;
+     grandTotalGlobal += item.total;
 
         tbody.innerHTML += `
         <tr>
@@ -153,7 +171,7 @@ function renderKeranjang() {
     });
 
     document.getElementById("grandTotal").innerText =
-        "Total: Rp " + total.toLocaleString();
+    "Total: Rp " + grandTotalGlobal.toLocaleString();
 }
 
 function hapusItem(i) {
@@ -165,9 +183,7 @@ function hapusItem(i) {
 tampilProduk();
 document.getElementById("uangBayar").addEventListener("input", function () {
     let bayar = this.value;
-    let totalText = document.getElementById("grandTotal").innerText;
-
-    let total = parseInt(totalText.replace(/\D/g, "")) || 0;
+   let total = grandTotalGlobal;
 
     let kembali = bayar - total;
 
@@ -186,8 +202,7 @@ function prosesBayar() {
     let metode = document.getElementById("metodeBayar").value;
     let bayar = document.getElementById("uangBayar").value;
 
-    let totalText = document.getElementById("grandTotal").innerText;
-    let total = parseInt(totalText.replace(/\D/g, "")) || 0;
+   let total = grandTotalGlobal;
 
     if (bayar === "" || bayar < total) {
         alert("Uang kurang!");
