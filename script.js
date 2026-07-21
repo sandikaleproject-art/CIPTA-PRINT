@@ -148,3 +148,8 @@ function hitungHarga() {
     document.getElementById("hasilHarga").innerText =
         "Total: Rp " + Math.round(total).toLocaleString();
 }
+<script src="script.js"></script>
+function testKlik() {
+    alert("Klik jalan");
+}
+<button onclick="testKlik()">Tambah ke Keranjang</button>
