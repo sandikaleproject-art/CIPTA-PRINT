@@ -283,11 +283,3 @@ function prosesBayar() {
     document.getElementById("uangBayar").value = "";
     document.getElementById("kembalian").innerText = "Kembalian: Rp 0";
 }
-let nota = document.getElementById("nota");
-
-if (!nota) {
-    alert("Nota tidak ditemukan!");
-    return;
-}
-
-nota.style.display = "block";
