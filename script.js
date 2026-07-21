@@ -153,8 +153,9 @@ let existing = keranjang.find(item =>
         existing.qty += qty;
         existing.total += total;
     } else {
-        keranjang.push({
-            nama: produk.nama,
+keranjang.push({
+    nama: produk.nama,
+    ukuran: produk.tipe === "meter" ? `${lebar}x${tinggi}` : "-",
             qty: qty,
             harga: harga,
             total: total
